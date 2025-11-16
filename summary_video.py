@@ -1,25 +1,23 @@
-from pytubefix import YouTube ## baixar vídeos do YouTube
+from pytubefix import YouTube ## baixar videos do YouTube
 from pytubefix.cli import on_progress 
-import ffmpeg ## para gravar, converter, transmitir e manipular arquivos de áudio e vídeo
-from openai import OpenAI ## inteligência artificial (IA)
-from dotenv import load_dotenv, find_dotenv ## carrega .env
-import glob ## para procurar por arquivos .mp4
-from groq import Groq
-import os
 
+import glob ##procura por arquivos .mp4
+from groq import Groq ## inteligência artificial (IA)
 ##groq/compound
 ##whisper-large-v3-turbo
+import os
+
+
 
 def chave_Api():
+
     client = Groq(
     api_key=os.environ.get("GROQ_API_KEY"),
     )
     return client
 
 
-
-def transcreve_Audio(api_client): 
-    
+def transcreve_Audio(api_client):   
 
     filename = procura_mp4()
     with open(filename, "rb") as file:
@@ -30,8 +28,6 @@ def transcreve_Audio(api_client):
         response_format="verbose_json",
         )
         return transcription.text
-
-
 
 
 def explica_Audio(api_client):
