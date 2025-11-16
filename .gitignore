@@ -1,1 +1,18 @@
+@ -1,6 +1,17 @@
+.venv
+venv/
+.vsvenv
 vsvenv/
+.vsvenv/
+.venv/vsvenv/
+vsvenv/
+venv/
+__pycache__/
+*.pyc
+node_modules/
+
+vsvenv/
+venv/
+__pycache__/
+*.pyc
+node_modules/
