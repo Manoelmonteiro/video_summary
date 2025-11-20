@@ -37,21 +37,21 @@ def explica_Audio(api_client):
         messages=[
             {
                 "role": "user",
-                "content": f"Explain the text: {transcreve_Audio(api_client)} ",
+                "content": f"explique o texto a seguir no mesmo idioma do texto: {transcreve_Audio(api_client)} ",
             }
         ],
         model="groq/compound",
     )
 
-    print(chat_completion.choices[0].message.content)
+    return chat_completion.choices[0].message.content
 
 
 
 
 
-def baixa_Video():
+def baixa_Video(link: str):
 
-    url = input("URL >")
+    url = link
  
     yt = YouTube(url, on_progress_callback = on_progress)
     print(yt.title)
@@ -73,8 +73,8 @@ def procura_mp4():
 
 
 
-def baixa_transcreve():
-    baixa_Video()
-    explica_Audio(chave_Api())
+def baixa_transcreve(link: str):
+    baixa_Video(link)
+    return explica_Audio(chave_Api())
 
-baixa_transcreve()
+##baixa_transcreve()
