@@ -22,3 +22,49 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Dependências do projeto
+node_modules
+/npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Diretório de build
+# Para projetos Vite, a pasta padrão de build é 'dist'
+/dist
+/build
+/out
+
+# Variáveis de ambiente
+# Arquivos de ambiente local contêm segredos e configurações específicas da máquina
+.env
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Arquivos de configuração e cache do sistema operacional ou IDEs
+.DS_Store
+.idea
+.vscode
+*.suo
+*.user
+*.casc
+*.lock
+
+# Arquivos de log e temporários
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+test-suites.json
+junit.xml
+
+# Arquivos de cobertura de teste
+/coverage
+
+# Arquivos gerados pelo Vite em desenvolvimento (pode variar)
+.vitepress/cache
+.vite/
+

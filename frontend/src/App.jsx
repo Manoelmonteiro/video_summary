@@ -63,12 +63,12 @@ function App() {
     style={{
       marginTop: "20px",
       padding: "20px",
-      backgroundColor: "#1e1e1e",
+      backgroundColor: "#7981acff",
       color: "white",
       borderRadius: "10px",
-      border: "1px solid #333",
+      border: "1px solid #646cff",
       whiteSpace: "pre-wrap",
-      boxShadow: "0 0 10px rgba(0,0,0,0.4)"
+      boxShadow: "0 0 10px rgba(145, 166, 243, 0.4)"
     }}
   >
     <h2 style={{ marginBottom: "10px" }}>Resumo gerado:</h2>
