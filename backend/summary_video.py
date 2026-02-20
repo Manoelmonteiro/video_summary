@@ -28,6 +28,7 @@ def transcreve_Audio(api_client):
         response_format="verbose_json",
         )
         return transcription.text
+    apaga_video(filename)
 
 
 def explica_Audio(api_client):
@@ -37,7 +38,7 @@ def explica_Audio(api_client):
         messages=[
             {
                 "role": "user",
-                "content": f"explique o texto a seguir no mesmo idioma do texto: {transcreve_Audio(api_client)} ",
+                "content": f"resuma o texto a seguir no mesmo idioma do texto: {transcreve_Audio(api_client)} ",
             }
         ],
         model="groq/compound",
@@ -46,7 +47,8 @@ def explica_Audio(api_client):
     return chat_completion.choices[0].message.content
 
 
-
+def apaga_video(filename):
+    deleteOne(filename)
 
 
 def baixa_Video(link: str):

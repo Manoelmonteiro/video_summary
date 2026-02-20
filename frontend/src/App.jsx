@@ -107,10 +107,10 @@ function App() {
           margin-bottom: 16px;
         }
         .subtitle {
+          
           font-size: 1.05rem;
           color: rgba(232, 234, 240, 0.55);
           font-weight: 300;
-          max-width: 440px;
           line-height: 1.6;
         }
 
@@ -296,7 +296,7 @@ function App() {
       <div className="wrapper">
         {/* Header */}
         <header className="header">
-          <div className="badge">✦ Powered by IA</div>
+          <div className="badge">✦ Powered by GOD</div>
           <h1>VideoSummary AI</h1>
           <p className="subtitle">Cole o link de qualquer vídeo do YouTube e receba um resumo inteligente em segundos.</p>
         </header>
