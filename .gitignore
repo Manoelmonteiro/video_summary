@@ -88,4 +88,5 @@ junit.xml
 # Arquivos gerados pelo Vite em desenvolvimento (pode variar)
 .vitepress/cache
 .vite/
+*.mp4
 
