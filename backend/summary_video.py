@@ -1,6 +1,6 @@
 from pytubefix import YouTube ## baixar videos do YouTube
 from pytubefix.cli import on_progress 
-
+from dotenv import load_dotenv
 import glob ##procura por arquivos .mp4
 from groq import Groq ## inteligência artificial (IA)
 ##groq/compound
@@ -10,10 +10,15 @@ import os
 
 
 def chave_Api():
+    load_dotenv()  # carrega o .env
 
-    client = Groq(
-    api_key=os.environ.get("GROQ_API_KEY"),
-    )
+    api_key = os.getenv("GROQ_API_KEY")
+
+    if not api_key:
+        raise ValueError("GROQ_API_KEY não encontrada no .env")
+
+    client = Groq(api_key=api_key)
+
     return client
 
 
