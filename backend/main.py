@@ -14,7 +14,7 @@ def processar_video(video: Video):
     return {"resultado": resultado}
 
 
-@app.delete()
+
 
 @app.get("/")
 def home():
