@@ -13,6 +13,9 @@ def processar_video(video: Video):
     resultado = baixa_transcreve(video.url)
     return {"resultado": resultado}
 
+
+
+
 @app.get("/")
 def home():
     return {"status": "ok"}

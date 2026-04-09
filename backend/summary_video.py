@@ -42,14 +42,13 @@ def explica_Audio(api_client):
         messages=[
             {
                 "role": "user",
-                "content": f"explique o texto a seguir no mesmo idioma do texto: {transcreve_Audio(api_client)} ",
+                "content": f"resuma o texto a seguir no mesmo idioma do texto: {transcreve_Audio(api_client)} ",
             }
         ],
         model="groq/compound",
     )
 
     return chat_completion.choices[0].message.content
-
 
 
 
@@ -74,6 +73,7 @@ def procura_mp4():
     input_file = arquivos[0]
 
     return input_file
+
 
 
 
