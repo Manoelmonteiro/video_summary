@@ -1,3 +1,5 @@
+
+
 def verificaEmail (email , senha):
     # DADOS FALSOS PARA TESTE (Substitua por uma consulta ao banco de dados)
     EMAIL_VALIDO = "admin@teste.com"
