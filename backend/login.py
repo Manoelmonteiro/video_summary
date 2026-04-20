@@ -1,17 +1,17 @@
-def verificaEmail (EMAIL_VALIDO , SENHA_VALIDA):
+def verificaEmail (email , senha):
     # DADOS FALSOS PARA TESTE (Substitua por uma consulta ao banco de dados)
     EMAIL_VALIDO = "admin@teste.com"
     SENHA_VALIDA = "123456"
 
     # Validação de credenciais
-    if dados.email == EMAIL_VALIDO and dados.senha == SENHA_VALIDA:
+    if email == EMAIL_VALIDO and senha == SENHA_VALIDA:
         return {
             "status": "sucesso",
             "mensagem": "Login aprovado",
             "token": "seu_jwt_token_super_seguro_gerado_aqui",
             "usuario": {
                 "nome": "Administrador",
-                "email": dados.email
+                "email": email
             }
         }
     
@@ -20,3 +20,5 @@ def verificaEmail (EMAIL_VALIDO , SENHA_VALIDA):
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Email ou senha incorretos."
     )
+
+print(verificaEmail("adin@teste.com","123456"))
