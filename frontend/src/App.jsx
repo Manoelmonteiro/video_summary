@@ -12,6 +12,7 @@ function App() {
       <Login /> {/* <--- Chamando o componente de login */}
     </div>
   );
+  
   const enviarVideo = async (e) => {
     e.preventDefault();
     setLoading(true);
