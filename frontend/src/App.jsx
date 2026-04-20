@@ -8,6 +8,7 @@ function App() {
   const [focused, setFocused] = useState(false);
    return (
     <div className="App">
+
       <Login /> {/* <--- Chamando o componente de login */}
     </div>
   );
