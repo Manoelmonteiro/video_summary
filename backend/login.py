@@ -23,4 +23,4 @@ def verificaEmail (email , senha):
         detail="Email ou senha incorretos."
     )
 
-print(verificaEmail("adin@teste.com","123456"))
+##print(verificaEmail("adin@teste.com","123456"))
