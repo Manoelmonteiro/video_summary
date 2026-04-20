@@ -1,3 +1,5 @@
+
+
 def verificaEmail (email , senha):
     # DADOS FALSOS PARA TESTE (Substitua por uma consulta ao banco de dados)
     EMAIL_VALIDO = "admin@teste.com"
@@ -21,4 +23,4 @@ def verificaEmail (email , senha):
         detail="Email ou senha incorretos."
     )
 
-print(verificaEmail("adin@teste.com","123456"))
+##print(verificaEmail("adin@teste.com","123456"))

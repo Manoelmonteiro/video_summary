@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from summary_video import baixa_transcreve
 from fastapi.middleware.cors import CORSMiddleware
+from login import verificaEmail
 
 app= FastAPI()
 
@@ -13,6 +14,13 @@ def processar_video(video: Video):
     resultado = baixa_transcreve(video.url)
     return {"resultado": resultado}
 
+class Login(BaseModel):
+    email: str
+    senha: str
+
+@app.post("/login")
+def verifica_login(dados: Login):
+    return verificaEmail(dados.email, dados.senha)
 
 
 

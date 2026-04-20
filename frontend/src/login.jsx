@@ -1,31 +1,40 @@
 import { useState } from "react";
-import Login from "./login";  
 
-function App() {
-  const [url, setUrl] = useState("");
-  const [resultado, setResultado] = useState("");
+function Login() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [mensagem, setMensagem] = useState("");
+  const [isError, setIsError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [focused, setFocused] = useState(false);
-   return (
-    <div className="App">
-      <Login /> {/* <--- Chamando o componente de login */}
-    </div>
-  );
-  const enviarVideo = async (e) => {
+  const [focusedInput, setFocusedInput] = useState(null);
+
+  const fazerLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setResultado("");
+    setMensagem("");
+    setIsError(false);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/processar", {
+      const response = await fetch("http://127.0.0.1:8000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ email, senha }),
       });
+      
       const data = await response.json();
-      setResultado(data.resultado);
+
+      if (!response.ok) {
+        setIsError(true);
+        setMensagem(data.detail || "Erro ao fazer login.");
+      } else {
+        setIsError(false);
+        setMensagem("Login realizado com sucesso! Redirecionando...");
+        // Aqui você faria o redirecionamento ou salvaria o token
+        console.log("Token:", data.token);
+      }
     } catch (error) {
-      setResultado("Erro ao processar o vídeo.");
+      setIsError(true);
+      setMensagem("Erro de conexão com o servidor.");
     }
 
     setLoading(false);
@@ -75,15 +84,15 @@ function App() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: flex-start;
+          justify-content: center;
           min-height: 100vh;
-          padding: 60px 20px 80px;
+          padding: 60px 20px;
         }
 
         /* ── Header ── */
         .header {
           text-align: center;
-          margin-bottom: 56px;
+          margin-bottom: 40px;
           animation: fadeUp 0.7s ease both;
         }
         .badge {
@@ -102,21 +111,19 @@ function App() {
         h1 {
           font-family: 'Syne', sans-serif;
           font-weight: 800;
-          font-size: clamp(2.6rem, 6vw, 4.2rem);
+          font-size: clamp(2.2rem, 5vw, 3.5rem);
           line-height: 1.05;
-          letter-spacing: -1.5px;
+          letter-spacing: -1px;
           background: linear-gradient(135deg, #fff 30%, #ff8c94 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          margin-bottom: 16px;
+          margin-bottom: 12px;
         }
         .subtitle {
-          
           font-size: 1.05rem;
           color: rgba(232, 234, 240, 0.55);
           font-weight: 300;
-          line-height: 1.6;
         }
 
         /* ── Card ── */
@@ -124,33 +131,38 @@ function App() {
           background: rgba(255,255,255,0.03);
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 20px;
-          padding: 36px 32px;
+          padding: 40px 32px;
           width: 100%;
-          max-width: 620px;
+          max-width: 450px;
           backdrop-filter: blur(12px);
           box-shadow: 0 0 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
           animation: fadeUp 0.7s 0.15s ease both;
         }
 
         /* ── Input wrapper ── */
+        .input-group {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          margin-bottom: 24px;
+        }
         .input-wrap {
           position: relative;
-          margin-bottom: 16px;
         }
-        .yt-icon {
+        .input-icon {
           position: absolute;
           left: 16px;
           top: 50%;
           transform: translateY(-50%);
-          width: 22px;
-          height: 22px;
+          width: 20px;
+          height: 20px;
           opacity: 0.5;
           pointer-events: none;
           transition: opacity 0.2s;
         }
-        .input-wrap.focused .yt-icon { opacity: 1; }
+        .input-wrap.focused .input-icon { opacity: 1; }
 
-        input[type="text"] {
+        input {
           width: 100%;
           padding: 15px 16px 15px 48px;
           font-family: 'DM Sans', sans-serif;
@@ -162,8 +174,8 @@ function App() {
           outline: none;
           transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
         }
-        input[type="text"]::placeholder { color: rgba(232,234,240,0.3); }
-        input[type="text"]:focus {
+        input::placeholder { color: rgba(232,234,240,0.3); }
+        input:focus {
           border-color: rgba(230, 57, 70, 0.6);
           background: rgba(255,255,255,0.06);
           box-shadow: 0 0 0 3px rgba(230,57,70,0.12);
@@ -204,85 +216,33 @@ function App() {
         .btn:active { transform: translateY(0); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        /* ── Loading ── */
-        .loading-row {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          justify-content: center;
-          margin-top: 22px;
-          font-size: 0.88rem;
-          color: rgba(232,234,240,0.45);
-          letter-spacing: 0.3px;
-          animation: fadeUp 0.4s ease both;
-        }
+        /* ── Spinners e Mensagens ── */
         .spinner {
           width: 16px; height: 16px;
-          border: 2px solid rgba(230,57,70,0.2);
-          border-top-color: #e63946;
+          border: 2px solid rgba(255,255,255,0.3);
+          border-top-color: #fff;
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ── Result ── */
-        .result-box {
-          margin-top: 28px;
-          border-top: 1px solid rgba(255,255,255,0.06);
-          padding-top: 28px;
-          animation: fadeUp 0.5s ease both;
+        .message-box {
+          margin-top: 20px;
+          padding: 12px;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          text-align: center;
+          animation: fadeUp 0.3s ease both;
         }
-        .result-label {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-family: 'Syne', sans-serif;
-          font-size: 0.72rem;
-          font-weight: 700;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          color: #e63946;
-          margin-bottom: 14px;
+        .message-box.error {
+          background: rgba(230, 57, 70, 0.1);
+          border: 1px solid rgba(230, 57, 70, 0.3);
+          color: #ff6b6b;
         }
-        .result-label::after {
-          content: '';
-          flex: 1;
-          height: 1px;
-          background: linear-gradient(90deg, rgba(230,57,70,0.4), transparent);
-        }
-        .result-text {
-          font-size: 0.97rem;
-          line-height: 1.75;
-          color: rgba(232, 234, 240, 0.82);
-          font-weight: 300;
-          white-space: pre-wrap;
-        }
-
-        /* ── Features ── */
-        .features {
-          display: flex;
-          gap: 12px;
-          justify-content: center;
-          flex-wrap: wrap;
-          margin-top: 28px;
-          animation: fadeUp 0.7s 0.3s ease both;
-        }
-        .feature-pill {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 0.78rem;
-          color: rgba(232,234,240,0.4);
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 100px;
-          padding: 6px 14px;
-        }
-        .feature-dot {
-          width: 5px; height: 5px;
-          border-radius: 50%;
-          background: #e63946;
-          opacity: 0.7;
+        .message-box.success {
+          background: rgba(46, 204, 113, 0.1);
+          border: 1px solid rgba(46, 204, 113, 0.3);
+          color: #2ecc71;
         }
 
         @keyframes fadeUp {
@@ -298,78 +258,73 @@ function App() {
         <div className="orb orb-3" />
       </div>
 
-        
-
-
       <div className="wrapper">
-        {/* Header */}
         <header className="header">
-          <div className="badge">✦ Powered by GOD</div>
-          <h1>VideoSummary AI</h1>
-          <p className="subtitle">Cole o link de qualquer vídeo do YouTube e receba um resumo inteligente em segundos.</p>
+          <div className="badge">✦ Área Restrita</div>
+          <h1>Bem-vindo</h1>
+          <p className="subtitle">Faça login para acessar sua conta.</p>
         </header>
 
-        {/* Main card */}
         <div className="card">
-          <form onSubmit={enviarVideo}>
-            <div className={`input-wrap ${focused ? "focused" : ""}`}>
-              {/* YouTube icon */}
-              <svg className="yt-icon" viewBox="0 0 24 24" fill="none">
-                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58Z" fill="#e63946"/>
-                <path d="M9.75 15.02 15.5 12l-5.75-3.02v6.04Z" fill="white"/>
-              </svg>
-              <input
-                type="text"
-                placeholder="https://youtube.com/watch?v=..."
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
-                required
-              />
+          <form onSubmit={fazerLogin}>
+            <div className="input-group">
+              {/* Campo Email */}
+              <div className={`input-wrap ${focusedInput === "email" ? "focused" : ""}`}>
+                <svg className="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <input
+                  type="email"
+                  placeholder="Seu email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onFocus={() => setFocusedInput("email")}
+                  onBlur={() => setFocusedInput(null)}
+                  required
+                />
+              </div>
+
+              {/* Campo Senha */}
+              <div className={`input-wrap ${focusedInput === "senha" ? "focused" : ""}`}>
+                <svg className="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <input
+                  type="password"
+                  placeholder="Sua senha"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  onFocus={() => setFocusedInput("senha")}
+                  onBlur={() => setFocusedInput(null)}
+                  required
+                />
+              </div>
             </div>
 
-            <button className="btn" type="submit" disabled={loading || !url.trim()}>
+            <button className="btn" type="submit" disabled={loading || !email || !senha}>
               {loading ? (
                 <>
                   <div className="spinner" />
-                  Processando...
+                  Entrando...
                 </>
               ) : (
-                <>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  Gerar Resumo
-                </>
+                "Entrar na conta"
               )}
             </button>
           </form>
 
-          {loading && (
-            <div className="loading-row">
-              <div className="spinner" />
-              Transcrevendo e analisando o vídeo...
+          {/* Feedback Visual */}
+          {mensagem && (
+            <div className={`message-box ${isError ? "error" : "success"}`}>
+              {mensagem}
             </div>
           )}
-
-          {resultado && (
-            <div className="result-box">
-              <div className="result-label">Resumo gerado</div>
-              <p className="result-text">{resultado}</p>
-            </div>
-          )}
-        </div>
-
-        {/* Feature pills */}
-        <div className="features">
-          <div className="feature-pill"><div className="feature-dot" />Transcrição automática</div>
-          <div className="feature-pill"><div className="feature-dot" />Resumo inteligente</div>
-          <div className="feature-pill"><div className="feature-dot" />Suporta qualquer idioma</div>
         </div>
       </div>
     </>
   );
 }
 
-export default App;
+export default Login;
