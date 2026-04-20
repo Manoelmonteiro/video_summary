@@ -1,11 +1,16 @@
 import { useState } from "react";
+import Login from "./login";  
 
 function App() {
   const [url, setUrl] = useState("");
   const [resultado, setResultado] = useState("");
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(false);
-
+   return (
+    <div className="App">
+      <Login /> {/* <--- Chamando o componente de login */}
+    </div>
+  );
   const enviarVideo = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -292,6 +297,9 @@ function App() {
         <div className="orb orb-2" />
         <div className="orb orb-3" />
       </div>
+
+        
+
 
       <div className="wrapper">
         {/* Header */}
